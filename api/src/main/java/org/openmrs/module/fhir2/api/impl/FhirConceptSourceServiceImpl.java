@@ -25,6 +25,8 @@ import org.openmrs.module.fhir2.api.FhirConceptSourceService;
 import org.openmrs.module.fhir2.api.dao.FhirConceptSourceDao;
 import org.openmrs.module.fhir2.model.FhirConceptSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,6 +37,7 @@ public class FhirConceptSourceServiceImpl implements FhirConceptSourceService {
 	private FhirConceptSourceDao dao;
 	
 	@Override
+	@Cacheable(value = "fhir2GetFhirConceptSources")
 	public Collection<FhirConceptSource> getFhirConceptSources() {
 		return dao.getFhirConceptSources();
 	}
@@ -81,6 +84,7 @@ public class FhirConceptSourceServiceImpl implements FhirConceptSourceService {
 	}
 	
 	@Override
+	@CacheEvict(value = "fhir2GetFhirConceptSources", allEntries = true)
 	public FhirConceptSource saveFhirConceptSource(@Nonnull FhirConceptSource fhirConceptSource) {
 		return dao.saveFhirConceptSource(fhirConceptSource);
 	}

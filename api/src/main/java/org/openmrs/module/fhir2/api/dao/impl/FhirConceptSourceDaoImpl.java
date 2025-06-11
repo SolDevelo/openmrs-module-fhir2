@@ -20,6 +20,7 @@ import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
@@ -32,6 +33,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Component
 public class FhirConceptSourceDaoImpl implements FhirConceptSourceDao {
 	
@@ -43,6 +45,7 @@ public class FhirConceptSourceDaoImpl implements FhirConceptSourceDao {
 	@Transactional(readOnly = true)
 	@SuppressWarnings("unchecked")
 	public Collection<FhirConceptSource> getFhirConceptSources() {
+		log.warn("FHIR_CONCEPT_SOURCES_DB_HIT");
 		return sessionFactory.getCurrentSession().createCriteria(FhirConceptSource.class).list();
 	}
 	
